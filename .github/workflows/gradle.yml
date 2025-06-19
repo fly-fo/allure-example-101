@@ -27,7 +27,7 @@ jobs:
       with:
         allure-endpoint: https://demo.testops.cloud
         allure-token: ${{ secrets.ALLURE_TOKEN }}
-        allure-project-id: 4601
+        allure-project-id: 4535
     - name: Run Tests
       run: allurectl watch -- ./gradlew clean test
       env:
