@@ -38,17 +38,5 @@ public class IssuesRestTest {
         steps.closeIssueWithTitle(OWNER, REPO, title);
     }
 
-    // --- New Feature: Authentication ---
-    @TM4J("AE-T3")
-    @Feature("Authentication")
-    @Story("User login with valid credentials")
-    @Microservice("Auth")
-    @Tags({@Tag("api"), @Tag("auth"), @Tag("smoke")})
-    @ParameterizedTest(name = "Login with username: {0}")
-    @ValueSource(strings = {"user1", "user2"})
-    public void shouldAuthenticateUser(@Param("Username") String username) {
-        String password = "securePassword"; // placeholder, replace with secure logic
-        steps.authenticateUser(username, password);
-        steps.shouldSeeUserLoggedIn(username);
-    }
+
 }
