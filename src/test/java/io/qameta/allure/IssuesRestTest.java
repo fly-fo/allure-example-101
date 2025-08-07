@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @Layer("rest")
 @Owner("baev")
-@Feature({@Feature("Issues"), @Feature("Auth")})
+@Feature("Issues")
 public class IssuesRestTest {
 
     private static final String OWNER = "allure-framework";
