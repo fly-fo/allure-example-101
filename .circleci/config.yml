@@ -1,0 +1,53 @@
+version: 2.1
+
+parameters:
+  ALLURE_JOB_RUN_ID:
+    type: string
+    default: ""
+  ALLURE_USERNAME:
+    type: string
+    default: ""
+
+jobs:
+  java-tests:
+    docker:
+      - image: cimg/openjdk:21.0
+    working_directory: ~/project
+
+    environment:
+      ALLURE_ENDPOINT: "https://demo.testops.cloud"
+      ALLURE_PROJECT_ID: "4601"
+      ALLURE_RESULTS: "build/allure-results"
+      ALLURE_JOB_RUN_ID: << pipeline.parameters.ALLURE_JOB_RUN_ID >>
+
+    steps:
+      - checkout
+
+      - run:
+          name: Show Java version
+          command: java -version
+
+      - run:
+          name: Make Gradle wrapper executable
+          command: chmod +x ./gradlew
+
+      - run:
+          name: Download allurectl
+          command: |
+            wget https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64 -O ./allurectl
+            chmod +x ./allurectl
+
+      - run:
+          name: Run tests via allurectl
+          command: |
+            ./allurectl watch \
+              --endpoint "${ALLURE_ENDPOINT}" \
+              --project-id "${ALLURE_PROJECT_ID}" \
+              --token "${ALLURE_TOKEN}" \
+              -- ./gradlew clean test
+
+workflows:
+  version: 2
+  java-ci-workflow:
+    jobs:
+      - java-tests
